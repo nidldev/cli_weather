@@ -14,6 +14,8 @@ Write a PHP-based command line app which prints the current weather of any city 
 
 ## Install
 
+Please, make sure Git, Docker and composer are properly installed on your system before going on.
+
 1. Download the project within the directory of your choice
 
 ```sh
@@ -26,13 +28,19 @@ $ git clone https://github.com/nidldev/weather_cli
 $ cd ./weather_cli
 ```
 
-3. Build the Docker image
+3. Install needed dependencies
+
+```sh
+$ composer install
+```
+
+4. Build the Docker image 
 
 ```sh
 $ docker build -t weather_cli .
 ```
 
-4. Run the container
+5. Run the container
 
 ```sh
 $ docker run -it --rm --name weather_cli weather_cli /bin/bash
