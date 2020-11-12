@@ -6,6 +6,6 @@ class HelpController extends CommandController
 {
     public function run($argv)
     {
-        $this->getApp()->getPrinter()->display("usage: weather your-city");
+        $this->getApp()->getPrinter()->display('usage: weather your-city');
     }
 }

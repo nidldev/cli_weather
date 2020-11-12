@@ -15,18 +15,21 @@ class CurrentWeatherController extends CommandController
 
     private function getCurrentWeather(string $city)
     {
-        $request = new HttpGet('api.openweathermap.org/data/2.5/weather?q=' . $city .
-            '&appid=' . self::OPENWEATHERMAP_APP_ID . '&units=metric');
+        $request = new HttpGet('api.openweathermap.org/data/2.5/weather?q=' .
+            $city . '&appid=' . self::OPENWEATHERMAP_APP_ID . '&units=metric');
 
         try {
             $response = $request();
         } catch (\RuntimeException $ex) {
-            return sprintf('Http error %s with code %d', $ex->getMessage(), $ex->getCode());
+            return sprintf('Http error %s with code %d',
+                $ex->getMessage(), $ex->getCode());
         }
 
-        if ($response->cod == 404)
+        if ($response->cod == 404) {
             return 'The city you specified is not listed in OpenWeatherMap or does not exist';
+        }
 
-        return ucfirst($response->weather[0]->description) . ', ' . round($response->main->temp) . ' degrees celsius';
+        return ucfirst($response->weather[0]->description) . ', ' .
+            round($response->main->temp) . ' degrees celsius';
     }
 }
