@@ -57,11 +57,12 @@ $ ./weather 100
 
 ### N.B
 
-You could also use the line below to avoid the need of running several commands in a row.
+You could also use the line below to avoid the need of previously build an image and 
+running several commands in a row.
 
 ```sh
 $ docker container run --rm -v $(pwd):/app/ php:7.3-cli /app/weather Berlin
 ```
 
 I did not choose to use docker-compose even though it would have made installation process much easier. 
-It seemed a bit overkilled too me to use docker-composer for only one container. 
+It seemed a bit overkilled too me to use docker-compose for only one container. 
