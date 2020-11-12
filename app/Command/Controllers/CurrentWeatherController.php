@@ -10,24 +10,23 @@ class CurrentWeatherController extends CommandController
 
     public function run($argv)
     {
-        //TODO test if integer
-
         $this->getApp()->getPrinter()->display($this->getCurrentWeather($argv[1]));
     }
 
     private function getCurrentWeather(string $city)
     {
+        $request = new HttpGet('api.openweathermap.org/data/2.5/weather?q=' . $city .
+            '&appid=' . self::OPENWEATHERMAP_APP_ID . '&units=metric');
+
         try {
-            $response = new HttpGet('api.openweathermap.org/data/2.5/weather?q=' . $city .
-                '&appid=' . self::OPENWEATHERMAP_APP_ID . '&units=metric');
+            $response = $request();
         } catch (\RuntimeException $ex) {
-            die(sprintf('Http error %s with code %d', $ex->getMessage(), $ex->getCode()));
+            return sprintf('Http error %s with code %d', $ex->getMessage(), $ex->getCode());
         }
 
-        $currentWeather = isset($response->weather[0]) ?
-            ucfirst($response->weather[0]->description) . ', ' .round($response->main->temp) . ' degrees celsius' : 
-            'The city you specified is not listed in OpenWeatherMap or does not exist';
+        if ($response->cod == 404)
+            return 'The city you specified is not listed in OpenWeatherMap or does not exist';
 
-        return $currentWeather;
+        return ucfirst($response->weather[0]->description) . ', ' . round($response->main->temp) . ' degrees celsius';
     }
 }
